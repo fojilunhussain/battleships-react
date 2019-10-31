@@ -19,14 +19,8 @@ function Boards() {
 
     const onHit = (row, col) => {
         const newPlayersBoard = playersBoard.slice()
-        // be careful about newPlayersBoard[0][0] = 'X'
 
         const newRowOnBoard = newPlayersBoard[row].slice()
-        // newRowOnBoard[col] = 'X'
-
-        // check the row and col in the computers board
-        // if it is a ship, then update newRowOnBoard[col]
-        // if not, update in a different way
 
         if (computersBoard[row][col] == "SH") {
             console.log('hit for', row, col)
@@ -39,11 +33,17 @@ function Boards() {
         newPlayersBoard[row] = newRowOnBoard
 
         setPlayersBoard(newPlayersBoard)
+
+        checkIfSunk(playersBoard, row, col)
     }
 
-    // const checkHit = (row, col) => {
-    //     console.log(computersBoard[row][col])
-    // }
+    const checkIfSunk = (playersBoard, row, col) => {
+        for (let i = 0; i < 3; i++) {
+            if (playersBoard[i][3] == "X" && i == 2) {
+                console.log("SH sunk")
+            }
+        }
+    }
 
     return (
         <>
