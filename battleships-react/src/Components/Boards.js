@@ -10,67 +10,73 @@ function Boards() {
         Cruiser: 3,
         Submarine: 3,
         Destroyer: 2
-
     })
+
+    const [computersHitColumn, setComputersHitColumn] = React.useState(Math.floor(Math.random() * 3))
+    const [computersHitRow, setComputersHitRow] = React.useState(Math.floor(Math.random() * 3))
 
     const [playersBoard, setPlayersBoard] = React.useState([
 
-        // ["","","",""],
-        // ["","","",""],
-        // ["","","",""],
-        // ["","","",""]
-        Array.from(Array(4), _ => Array(4).fill("")),
-        Array.from(Array(4), _ => Array(4).fill("")),
-        Array.from(Array(4), _ => Array(4).fill("")),
-        Array.from(Array(4), _ => Array(4).fill(""))
-
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""]
+        // Array.from(Array(4), _ => Array(4).fill("")),
+        // Array.from(Array(4), _ => Array(4).fill("")),
+        // Array.from(Array(4), _ => Array(4).fill("")),
+        // Array.from(Array(4), _ => Array(4).fill(""))
     ])
 
     const [computersBoard, setComputersBoard] = React.useState([
-        ["","","","BA"],
-        ["","","","BA"],
-        ["","DE","","BA"],
-        ["","DE","","BA"]
+        // ["","","","BA"],
+        // ["","","","BA"],
+        // ["","","","BA"],
+        // ["","","","BA"]
+        ["","","","X"],
+        ["","","","X"],
+        ["","","","X"],
+        ["","","","X"]
     ])
 
-    const onHit = (row, col) => {
+    const checkIfWon = (newPlayersBoard, computersBoard) => {
+        if (newPlayersBoard === computersBoard) {
+            console.log("You win")
+        }
+    }
+
+    const onHit = (hitRow, hitColumn) => {
 
         const newPlayersBoard = playersBoard.slice()
-        const newRowOnBoard = newPlayersBoard[row].slice()
+        const newRowOnBoard = newPlayersBoard[hitRow].slice()
 
-        if (computersBoard[row][col] == "CA") {
-            console.log('hit for', row, col)
-            newRowOnBoard[col] = "X"
-        } else if (computersBoard[row][col] == "BA") {
-            console.log('hit for', row, col)
-            newRowOnBoard[col] = "X"
-        }else if (computersBoard[row][col] == "CR") {
-            console.log('hit for', row, col)
-            newRowOnBoard[col] = "X"
-        } else if (computersBoard[row][col] == "SU") {
-            console.log('hit for', row, col)
-            newRowOnBoard[col] = "X"
-        } else if (computersBoard[row][col] == "DE") {
-            console.log('hit for', row, col)
-            newRowOnBoard[col] = "X"
+        if (computersBoard[hitRow][hitColumn] == "CA") {
+            console.log('hit for', hitRow, hitColumn)
+            newRowOnBoard[hitColumn] = "X"
+        } else if (computersBoard[hitRow][hitColumn] == "X") {
+            console.log('hit for', hitRow, hitColumn)
+            newRowOnBoard[hitColumn] = "X"
+        }else if (computersBoard[hitRow][hitColumn] == "CR") {
+            console.log('hit for', hitRow, hitColumn)
+            newRowOnBoard[hitColumn] = "X"
+        } else if (computersBoard[hitRow][hitColumn] == "SU") {
+            console.log('hit for', hitRow, hitColumn)
+            newRowOnBoard[hitColumn] = "X"
+        } else if (computersBoard[hitRow][hitColumn] == "DE") {
+            console.log('hit for', hitRow, hitColumn)
+            newRowOnBoard[hitColumn] = "X"
         } else {
-            console.log('miss at', row, col)
-            newRowOnBoard[col] = "/"
+            console.log('miss at', hitRow, hitColumn)
+            newRowOnBoard[hitColumn] = "/"
         }
 
         console.log(newPlayersBoard) //compare computer's board against newPlayersBoard
 
-        newPlayersBoard[row] = newRowOnBoard
+        newPlayersBoard[hitRow] = newRowOnBoard
         setPlayersBoard(newPlayersBoard)
-        checkIfSunk(playersBoard, row, col)
-
-        const numberOfTurnsTaken = playersBoard.reduce(
-            (acc, content) => content === "X" ? acc : acc + 1
-        )
-
+        checkIfSunk(playersBoard, hitRow, hitColumn)
     }
 
-    const checkIfSunk = (playersBoard, row, col) => {
+    const checkIfSunk = (playersBoard, hitRow, hitColumn) => {
 
         for (let i = 0; i < 3; i++) {
 
@@ -78,10 +84,6 @@ function Boards() {
                 console.log("SH sunk")
             }
         }
-    }
-
-    const checkIfEndGame = () => {
-
     }
 
     return (
