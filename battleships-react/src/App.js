@@ -1,18 +1,21 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Cells from './Components/Cells'
+import PlayersBoard from './Components/PlayersBoard'
+import NewGame from './Components/NewGame'
+import Test from './test'
 
-function App() {
-
-  const [playersBoard, setPlayersBoard] = React.useState(Array.from(Array(10), _ => Array(10).fill("_")))
-  const [computersBoard, setComputersBoard] = React.useState(Array.from(Array(10), _ => Array(10).fill("_")))
+function App () {
 
   return (
     <>
       <h1>Battleships</h1>
-      <p>This is what the board looks like: {playersBoard}</p>
+      <NewGame/>
+      <p>This is what your board looks like:</p>
+      <PlayersBoard/>
     </>
-  );
+  )
 }
 
 export default App;
