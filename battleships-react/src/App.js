@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Cells from './Components/Cells'
 import Boards from './Components/Boards'
 import NewGame from './Components/NewGame'
 import Test from './test'
 
 function App () {
+
+  const isGameOver = false
 
   return (
     <>
