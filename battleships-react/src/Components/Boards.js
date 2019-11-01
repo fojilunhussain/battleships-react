@@ -63,12 +63,15 @@ function Boards() {
         const shipTypes = ["CA", "BA", "CR", "SU", "DE"]
         const randomShipIndex = Math.floor(Math.random() * 5)
         const randomShip = shipTypes[randomShipIndex]
-        console.log(randomShip)
+        console.log(typeof randomShip)
     }
 
     const onNew = useCallback((computersBoard, randomShip) => {
 
-        getRandomShip()
+        // const shipTypes = ["CA", "BA", "CR", "SU", "DE"]
+        // const randomShipIndex = Math.floor(Math.random() * 5)
+        // const randomShip = shipTypes[randomShipIndex]
+        // console.log(typeof randomShip)
 
         const computersHitColumn = Math.floor(Math.random() * 4)
         const computersHitRow = Math.floor(Math.random() * 4)
@@ -85,7 +88,7 @@ function Boards() {
         newComputersBoard[computersHitRow] = newRowOnComputersBoard
         setComputersBoard(newComputersBoard)
     
-        console.log(newComputersBoard + "computers board")
+        console.log(newComputersBoard)
         console.log("new game")
     })
 
