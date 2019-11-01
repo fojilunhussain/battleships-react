@@ -1,28 +1,19 @@
-import React, {  useState, useCallback  } from 'react';
+import React, {  useCallback  } from 'react';
 import Cells from './Cells'
 import NewGame from './NewGame'
 
 function Boards() {
 
-    // const [shipTypes] = React.useState({
-
-    //     Carrier: 5,
-    //     Battleship: 4,
-    //     Cruiser: 3,
-    //     Submarine: 3,
-    //     Destroyer: 2
-    // })
-
     const [playersBoard, setPlayersBoard] = React.useState([
 
-        ["","","",""],
+        ["","","",""], // what the player will see
         ["","","",""],
         ["","","",""],
         ["","","",""]
     ])
 
     const [computersBoard, setComputersBoard] = React.useState([
-        ["","","",""],
+        ["","","",""], // the ships will be placed on this board
         ["","","",""],
         ["","","",""],
         ["","","",""]
@@ -57,54 +48,43 @@ function Boards() {
 
         newPlayersBoard[hitRow] = newRowOnPlayersBoard
         setPlayersBoard(newPlayersBoard)
+
     }
 
-    const getRandomShip = () => {
+    const onNew = useCallback((computersBoard) => {
+
         const shipTypes = ["CA", "BA", "CR", "SU", "DE"]
-        const randomShipIndex = Math.floor(Math.random() * 5)
-        const randomShip = shipTypes[randomShipIndex]
-        console.log(typeof randomShip)
-    }
-
-    const onNew = useCallback((computersBoard, randomShip) => {
-
-        // const shipTypes = ["CA", "BA", "CR", "SU", "DE"]
-        // const randomShipIndex = Math.floor(Math.random() * 5)
-        // const randomShip = shipTypes[randomShipIndex]
-        // console.log(typeof randomShip)
-
-        const computersHitColumn = Math.floor(Math.random() * 4)
-        const computersHitRow = Math.floor(Math.random() * 4)
-        console.log(computersHitRow, computersHitColumn)
-
         const newComputersBoard = computersBoard.slice()
-        const newRowOnComputersBoard = newComputersBoard[computersHitRow].slice()
-    
-        if (computersBoard[computersHitRow][computersHitColumn]
+
+        for (let i = 0; i < 5; i++) {
+            console.log(newComputersBoard)
+            const computersHitColumn = Math.floor(Math.random() * 4)
+            const computersHitRow = Math.floor(Math.random() * 4)
+            console.log(computersHitRow, computersHitColumn)
+            const newRowOnComputersBoard
+                = newComputersBoard[computersHitRow].slice()
+
+            if (computersBoard[computersHitRow][computersHitColumn]
                 === "") {
-            newRowOnComputersBoard[computersHitColumn] = randomShip
+            newRowOnComputersBoard[computersHitColumn] = shipTypes.pop()
+            }
+                
+            newComputersBoard[computersHitRow] = newRowOnComputersBoard
+            setComputersBoard(newComputersBoard)
+        
+            console.log(newComputersBoard)
         }
-    
-        newComputersBoard[computersHitRow] = newRowOnComputersBoard
-        setComputersBoard(newComputersBoard)
-    
-        console.log(newComputersBoard)
-        console.log("new game")
     })
 
     return (
-
         <>
-
             <NewGame onNew = {() => onNew(computersBoard)}/>
             <div style = {{
 
                 display: 'grid',
                 gridTemplateColumns: 'repeat(4, 50px)',
                 gridTemplateRows: 'repeat(4, 50px)'
-
             }}>
-
                 <Cells content = {playersBoard[0][0]} onHit = {() => onHit(0,0)}/>
                 <Cells content = {playersBoard[0][1]} onHit = {() => onHit(0,1)}/>
                 <Cells content = {playersBoard[0][2]} onHit = {() => onHit(0,2)}/>
@@ -121,9 +101,7 @@ function Boards() {
                 <Cells content = {playersBoard[3][1]} onHit = {() => onHit(3,1)}/>
                 <Cells content = {playersBoard[3][2]} onHit = {() => onHit(3,2)}/>
                 <Cells content = {playersBoard[3][3]} onHit = {() => onHit(3,3)}/>
-
             </div>
-
         </>
     )
 }

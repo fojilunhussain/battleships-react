@@ -8,7 +8,9 @@ function App () {
 
   return (
     <>
-      <h1>Battleships</h1>
+      <h1 style = {{
+        font: 'Optima'
+      }}>Battleships</h1>
       <p>This is what your board looks like:</p>
       <Boards/>
     </>
