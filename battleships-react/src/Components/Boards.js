@@ -1,19 +1,17 @@
-import React from 'react';
+import React, {  useState, useCallback  } from 'react';
 import Cells from './Cells'
+import NewGame from './NewGame'
 
 function Boards() {
 
-    const [shipTypes] = React.useState({
+    // const [shipTypes] = React.useState({
 
-        Carrier: 5,
-        Battleship: 4,
-        Cruiser: 3,
-        Submarine: 3,
-        Destroyer: 2
-    })
-
-    const [computersHitColumn, setComputersHitColumn] = React.useState(Math.floor(Math.random() * 3))
-    const [computersHitRow, setComputersHitRow] = React.useState(Math.floor(Math.random() * 3))
+    //     Carrier: 5,
+    //     Battleship: 4,
+    //     Cruiser: 3,
+    //     Submarine: 3,
+    //     Destroyer: 2
+    // })
 
     const [playersBoard, setPlayersBoard] = React.useState([
 
@@ -21,82 +19,88 @@ function Boards() {
         ["","","",""],
         ["","","",""],
         ["","","",""]
-        // Array.from(Array(4), _ => Array(4).fill("")),
-        // Array.from(Array(4), _ => Array(4).fill("")),
-        // Array.from(Array(4), _ => Array(4).fill("")),
-        // Array.from(Array(4), _ => Array(4).fill(""))
     ])
 
     const [computersBoard, setComputersBoard] = React.useState([
-        // ["","","","BA"],
-        // ["","","","BA"],
-        // ["","","","BA"],
-        // ["","","","BA"]
-        ["","","","X"],
-        ["","","","X"],
-        ["","","","X"],
-        ["","","","X"]
+        ["","","",""],
+        ["","","",""],
+        ["","","",""],
+        ["","","",""]
     ])
 
-    const checkIfWon = (newPlayersBoard, computersBoard) => {
-        if (newPlayersBoard === computersBoard) {
-            console.log("You win")
-        }
-    }
-
-    const onHit = (hitRow, hitColumn) => {
+    const onHit = (hitRow, hitColumn, setComputersBoard) => {
 
         const newPlayersBoard = playersBoard.slice()
-        const newRowOnBoard = newPlayersBoard[hitRow].slice()
+        const newRowOnPlayersBoard = newPlayersBoard[hitRow].slice()
 
-        if (computersBoard[hitRow][hitColumn] == "CA") {
+        if (computersBoard[hitRow][hitColumn] === "CA") {
             console.log('hit for', hitRow, hitColumn)
-            newRowOnBoard[hitColumn] = "X"
-        } else if (computersBoard[hitRow][hitColumn] == "X") {
+            newRowOnPlayersBoard[hitColumn] = "X"
+        } else if (computersBoard[hitRow][hitColumn] === "BA") {
             console.log('hit for', hitRow, hitColumn)
-            newRowOnBoard[hitColumn] = "X"
-        }else if (computersBoard[hitRow][hitColumn] == "CR") {
+            newRowOnPlayersBoard[hitColumn] = "X"
+        }else if (computersBoard[hitRow][hitColumn] === "CR") {
             console.log('hit for', hitRow, hitColumn)
-            newRowOnBoard[hitColumn] = "X"
-        } else if (computersBoard[hitRow][hitColumn] == "SU") {
+            newRowOnPlayersBoard[hitColumn] = "X"
+        } else if (computersBoard[hitRow][hitColumn] === "SU") {
             console.log('hit for', hitRow, hitColumn)
-            newRowOnBoard[hitColumn] = "X"
-        } else if (computersBoard[hitRow][hitColumn] == "DE") {
+            newRowOnPlayersBoard[hitColumn] = "X"
+        } else if (computersBoard[hitRow][hitColumn] === "DE") {
             console.log('hit for', hitRow, hitColumn)
-            newRowOnBoard[hitColumn] = "X"
+            newRowOnPlayersBoard[hitColumn] = "X"
         } else {
             console.log('miss at', hitRow, hitColumn)
-            newRowOnBoard[hitColumn] = "/"
+            newRowOnPlayersBoard[hitColumn] = "/"
         }
 
-        console.log(newPlayersBoard) //compare computer's board against newPlayersBoard
+        console.log(newPlayersBoard + "players board") 
 
-        newPlayersBoard[hitRow] = newRowOnBoard
+        newPlayersBoard[hitRow] = newRowOnPlayersBoard
         setPlayersBoard(newPlayersBoard)
-        checkIfSunk(playersBoard, hitRow, hitColumn)
     }
 
-    const checkIfSunk = (playersBoard, hitRow, hitColumn) => {
+    const getRandomShip = () => {
+        const shipTypes = ["CA", "BA", "CR", "SU", "DE"]
+        const randomShipIndex = Math.floor(Math.random() * 5)
+        const randomShip = shipTypes[randomShipIndex]
+        console.log(randomShip)
+    }
 
-        for (let i = 0; i < 3; i++) {
+    const onNew = useCallback((computersBoard, randomShip) => {
 
-            if (playersBoard[i][3] == "X" && i == 2) {
-                console.log("SH sunk")
-            }
+        getRandomShip()
+
+        const computersHitColumn = Math.floor(Math.random() * 4)
+        const computersHitRow = Math.floor(Math.random() * 4)
+        console.log(computersHitRow, computersHitColumn)
+
+        const newComputersBoard = computersBoard.slice()
+        const newRowOnComputersBoard = newComputersBoard[computersHitRow].slice()
+    
+        if (computersBoard[computersHitRow][computersHitColumn]
+                === "") {
+            newRowOnComputersBoard[computersHitColumn] = randomShip
         }
-    }
+    
+        newComputersBoard[computersHitRow] = newRowOnComputersBoard
+        setComputersBoard(newComputersBoard)
+    
+        console.log(newComputersBoard + "computers board")
+        console.log("new game")
+    })
 
     return (
 
         <>
 
+            <NewGame onNew = {() => onNew(computersBoard)}/>
             <div style = {{
 
                 display: 'grid',
                 gridTemplateColumns: 'repeat(4, 50px)',
                 gridTemplateRows: 'repeat(4, 50px)'
 
-            }}>  
+            }}>
 
                 <Cells content = {playersBoard[0][0]} onHit = {() => onHit(0,0)}/>
                 <Cells content = {playersBoard[0][1]} onHit = {() => onHit(0,1)}/>
@@ -120,5 +124,4 @@ function Boards() {
         </>
     )
 }
-
-export default Boards
+export default Boards;

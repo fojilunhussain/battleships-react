@@ -1,14 +1,12 @@
 import React from 'react';
-import Cells from './Cells'
+import Boards from './Boards'
 
-function NewGame () {
-
-    const [randomCoordinates] = React.useState(Math.floor(Math.random() * 5))
+function NewGame (  {onNew}  ) {
 
     return (
         <>
             <button
-                //onClick = {e => onNew()}
+                onClick = {e => onNew()}
             >
                 Start new game
             </button>
@@ -16,4 +14,4 @@ function NewGame () {
     )
 }
 
-export default NewGame
+export default NewGame;
