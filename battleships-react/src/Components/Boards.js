@@ -22,10 +22,12 @@ function Boards() {
     const onHit = (hitRow, hitColumn, setComputersBoard) => {
 
         const newPlayersBoard = playersBoard.slice()
+            // take shallow copy of player's board
         const newRowOnPlayersBoard = newPlayersBoard[hitRow].slice()
+            // take shallow copy of the row on the player's board
 
         if (computersBoard[hitRow][hitColumn] === "CA") {
-            console.log('hit for', hitRow, hitColumn)
+           console.log('hit for', hitRow, hitColumn)
             newRowOnPlayersBoard[hitColumn] = "X"
         } else if (computersBoard[hitRow][hitColumn] === "BA") {
             console.log('hit for', hitRow, hitColumn)
@@ -43,16 +45,19 @@ function Boards() {
             console.log('miss at', hitRow, hitColumn)
             newRowOnPlayersBoard[hitColumn] = "/"
         }
+            // hits for the different boats
 
         console.log(newPlayersBoard + "players board") 
 
         newPlayersBoard[hitRow] = newRowOnPlayersBoard
-        setPlayersBoard(newPlayersBoard)
-
+        setPlayersBoard(newPlayersBoard) // updates the player's board
     }
 
     const onNew = useCallback((computersBoard) => {
-
+        // this function runs whenever the 'new game' button is pressed
+        // it clears the board and places the ships on random and
+        // unique coordinates
+        const generatedCoordinates = []
         const shipTypes = ["CA", "BA", "CR", "SU", "DE"]
         const newComputersBoard = computersBoard.slice()
 
@@ -73,6 +78,13 @@ function Boards() {
             setComputersBoard(newComputersBoard)
         
             console.log(newComputersBoard)
+            if (generatedCoordinates
+                .includes([computersHitRow, computersHitColumn]))
+                {
+                    
+            }
+            generatedCoordinates.push([computersHitRow, computersHitColumn])
+            console.log(generatedCoordinates)
         }
     })
 
